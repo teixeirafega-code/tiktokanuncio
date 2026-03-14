@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #000000 0%, #111111 100%);
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+        .app-wrapper {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        /* Header Fixo */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(254,44,85,0.2);
+        }
+        .header-left { font-size: 24px; cursor: pointer; color: #fff; }
+        .header-center { flex: 1; text-align: center; font-weight: 700; font-size: 18px; color: #fff; letter-spacing: -0.5px; }
+        .header-right { font-size: 24px; cursor: pointer; color: #fff; }
+        /* Conteúdo Principal */
+        .main-content {
+            padding: 80px 16px 20px;
+            overflow-y: auto;
+        }
+        /* Cards TikTok Style */
+        .card {
+            background: #161823;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(254,44,85,0.1);
+        }
+        .logo-tiktok {
+            width: 120px;
+            height: auto;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        .balance-glow {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #FE2C55, #25F4EE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 20px 0;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px #FE2C55); }
+            to { filter: drop-shadow(0 0 15px #25F4EE); }
+        }
+        .input-tiktok {
+            background: #222;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 16px;
+            color: #fff;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        .btn-tiktok {
+            background: linear-gradient(45deg, #FE2C55, #FF5A8A);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-tiktok:hover { transform: scale(1.02); }
+        .spinner {
+            border: 3px solid #333;
+            border-top: 3px solid #FE2C55;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(22,24,35,0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+        .nav-item {
+            color: #888;
+            font-size: 24px;
+            text-align: center;
+            flex: 1;
+        }
+        .nav-plus {
+            background: linear-gradient(45deg, #00f, #f0f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .step { display: none; }
+        .step.active { display: block; }
+        /* Ocultar scrollbars */
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-left">✕</div>
+    <div class="header-center">
+        <img src="Tik Tok Horizontal Logo Text Social Media.png" alt="TikTok" style="width: 110px; height: auto; display: inline-block; vertical-align: middle;">
+    </div>
+    <div class="header-right">⋯</div>
+</div>
+
+        <!-- Conteúdo -->
+        <div class="main-content">
+            <!-- Step 1: Login -->
+            <div id="step1" class="step active">
+                <img class="logo-tiktok" src="https://www.edigitalagency.com.au/wp-content/uploads/TikTok-logo-PNG.png" alt="TikTok Rewards">
+                <div class="card">
+                    <h3 style="margin-bottom: 20px; color: #25F4EE;">Verificar Bônus Retidos</h3>
+                    <input type="text" id="user-id" class="input-tiktok" placeholder="@username">
+                    <button id="btn-verify" class="btn-tiktok" onclick="verifyUser()">VERIFICAR</button>
+                    <div id="spinner" class="spinner" style="display:none;"></div>
+                </div>
+            </div>
+
+            <!-- Step 2: Balance -->
+            <div id="step2" class="step">
+                <div class="card">
+                    <div id="user-display" style="color: #25F4EE; font-size: 20px; margin-bottom: 20px;">@user</div>
+                    <h3>Saldo Detectado</h3>
+                    <div id="balance-display" class="balance-glow">R$ 0,00</div>
+                    <button class="btn-tiktok" onclick="showSaque()">SACAR SALDO</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Confirmação -->
+            <div id="step3" class="step">
+                <div class="card">
+                    <h3 style="color: #FE2C55; margin-bottom: 16px;">Taxa de Liberação</h3>
+                    <p style="color: #ccc; margin-bottom: 20px;">Taxa obrigatória de <strong style="color: #FE2C55;">R$ 34,67</strong> (reembolsável)</p>
+                    <button class="btn-tiktok" onclick="finalizar()">PAGAR E LIBERAR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Nav removida por feedback do usuário -->
+    </div>
+
+    <script>
+        let currentBalance = 0;
+        const targetBalance = 2487.43;
+        let animationInterval;
+
+        function verifyUser() {
+            const btn = document.getElementById('btn-verify');
+            const spinner = document.getElementById('spinner');
+            const id = document.getElementById('user-id').value;
+            
+            if (id.length < 3) {
+                alert('ID inválido');
+                return;
+            }
+
+            btn.style.display = 'none';
+            spinner.style.display = 'block';
+
+            setTimeout(() => {
+                spinner.style.display = 'none';
+                document.getElementById('user-display').textContent = id;
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step2').classList.add('active');
+                btn.style.display = 'block';
+                animateBalance();
+            }, 2000);
+        }
+
+        function animateBalance() {
+            animationInterval = setInterval(() => {
+                if (currentBalance < targetBalance) {
+                    currentBalance += Math.random() * 50 + 20;
+                    if (currentBalance > targetBalance) currentBalance = targetBalance;
+                    document.getElementById('balance-display').textContent = `R$ ${currentBalance.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                } else {
+                    clearInterval(animationInterval);
+                }
+            }, 80);
+        }
+
+        function showSaque() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.add('active');
+        }
+
+        function finalizar() {
+            alert('Demo acadêmica concluída! Plataformas legítimas NUNCA pedem pagamento para liberar saldos.');
+        }
+    </script>
+</body>
+</html>

