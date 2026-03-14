@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Saque - Banco</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f8f8;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .header-saldo {
+            background: #000;
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+        .header-saldo h2 {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .saldo-valor {
+            font-size: 48px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
+        }
+        .status-text {
+            font-size: 18px;
+            color: #666;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .taxa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .taxa-titulo {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+        .taxa-valor {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+        .reembolso-tag {
+            background: #d5f4e6;
+            color: #27ae60;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .explicacao {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .dados-header {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .dado-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 15px;
+        }
+        .dado-label {
+            color: #666;
+        }
+        .codigo-container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .codigo-label {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        .codigo-hash {
+            font-family: monospace;
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 2px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-saldo">
+        <h2>SALDO DISPONÍVEL</h2>
+        <div class="saldo-valor">R$ 4.834,72</div>
+        <div class="status-text">Aguardando confirmação para saque</div>
+    </div>
+
+    <div class="card">
+        <div class="taxa-header">
+            <div class="taxa-titulo">CONFIRMAÇÃO DE IDENTIDADE</div>
+            <div>
+                <div class="taxa-valor">R$ 34,67</div>
+                <div class="reembolso-tag">VALOR REEMBOLSÁVEL</div>
+            </div>
+        </div>
+    </div>
+
+    <p class="explicacao">Esta taxa de confirmação é obrigatória para liberação do saldo retido. O valor será estornado integralmente após a confirmação dos dados bancários e processamento do saque.</p>
+
+    <div class="card">
+        <div class="dados-header">DADOS PARA REEMBOLSO</div>
+        <div class="dado-item">
+            <span class="dado-label">Nome:</span>
+            <span>Leonardo Antonio Santos</span>
+        </div>
+        <div class="dado-item">
+            <span class="dado-label">Data:</span>
+            <span>15/01/2026</span>
+        </div>
+        <div class="dado-item">
+            <span class="dado-label">Chave PIX:</span>
+            <span>Chave Aleatória</span>
+        </div>
+    </div>
+
+    <div class="codigo-container">
+        <div class="codigo-label">Código de Transação</div>
+        <div class="codigo-hash">a1b2c3d4-e5f6-7890-abcd-ef1234567890</div>
+    </div>
+</body>
+</html>

